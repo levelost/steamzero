@@ -1,5 +1,5 @@
 # Steam-Zero
-Steam achivements statistics script
+Steam achivements statistics script.
 
 #Usage
 Copy file steamzero.html to your computer and open it in the browser (Chrome, Filefox, Opera, Yandex). Works with public accounts only.
