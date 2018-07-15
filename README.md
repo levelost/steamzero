@@ -2,7 +2,7 @@
 Steam achivements statistics script.
 
 ## Usage
-Copy file [steamzero.html](https://github.com/levelost/steamzero/blob/master/steamzero.html) to your computer and open it in the browser (Chrome, Filefox, Opera, Yandex). Script works with public accounts only.
+Copy file [steamzero.html](https://github.com/levelost/steamzero/releases/download/v0.07/steamzero.html) to your computer and open it in the browser (Chrome, Filefox, Opera, Yandex). Script works with public accounts only.
 
 If you want to see the human-readable code, open the file [/debug/index.html](https://github.com/levelost/steamzero/blob/master/debug/index.html).
 
