@@ -430,7 +430,7 @@
                                                     achievements[g.appid] =
                                                             [
                                                                 val.playerstats.gameName.replace(/^The /, ''),
-                                                                Math.ceil(count / val.playerstats.achievements.length * 100),
+                                                                Math.floor(count / val.playerstats.achievements.length * 100),
                                                                 count,
                                                                 val.playerstats.achievements.length,
                                                                 parseFloat(g.playtime_forever / 60.0).toFixed(2)
@@ -447,7 +447,7 @@
                                                     achievements[g.appid] = 0;
                                                 }
 
-                                                ShowWait(Math.ceil(100 - (gameCounter / v.response.games.length * 100)) + '%');
+                                                ShowWait(Math.floor(100 - (gameCounter / v.response.games.length * 100)) + '%');
 
                                                 if (CountDown())
                                                 {
@@ -528,7 +528,7 @@
 
             document.getElementById('dAStat').innerHTML =
                     countAch + '&nbsp;achievements out&nbsp;of&nbsp;' + countAchAll + ' in&nbsp;' + countAchGames + '&nbsp;games.<br>' +
-                    'Average percentage of&nbsp;achievements for&nbsp;a&nbsp;game&nbsp;— ' + Math.ceil(countPerc / countPlayed) + '%.<br>' +
+                    'Average percentage of&nbsp;achievements for&nbsp;a&nbsp;game&nbsp;— ' + Math.floor(countPerc / countPlayed) + '%.<br>' +
                     'Total playing time in&nbsp;games with&nbsp;achievements&nbsp;— ' + Math.round(countTime) + '&nbsp;hours.<br>' +
                     'Average speed of&nbsp;receiving achievements&nbsp;— ' + (countAch / countTime).toFixed(1) + '&nbsp;achievements per&nbsp;hour.<br><br>' +
 
