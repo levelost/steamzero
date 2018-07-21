@@ -7,6 +7,9 @@ Copy file [steamzero.html](https://github.com/levelost/steamzero/releases/downlo
 If you want to see the human-readable code, open the file [/debug/index.html](https://github.com/levelost/steamzero/blob/master/debug/index.html).
 
 ## History
+### v0.08
+* Round persision fix.
+* Achievements table sorting.
 ### v0.07
 Base functions:
 * Gaining player achievement statistics.
