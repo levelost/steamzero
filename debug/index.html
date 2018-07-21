@@ -1,150 +1,164 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Steam-Zero</title>
     <meta charset="utf-8">
-    <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJ1BMVEX///8SVaESVaESVaESVaESVaESVaESVaESVaESVaESVaG4zOP///9Yn1YFAAAACnRSTlMABxNWr7bR1d/761gaCAAAAFpJREFUeNplj1EKACEIBXXV1Or+591nwcLifMhzoFQCLOoRrsJ0eCznIe05/ZgfA4YNYW2wEIxJsvoFyqSQwlcsjaLkf+EUV+x9RTTRnrRP29i2WFu9HdfOfwFHrAgNTBwYSAAAAABJRU5ErkJggg==" rel="icon" type="image/png">
+    <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAJ1BMVEX///8SVaESVaESVaESVaESVaESVaESVaESVaESVaESVaG4zOP///9Yn1YFAAAACnRSTlMABxNWr7bR1d/761gaCAAAAFpJREFUeNplj1EKACEIBXXV1Or+591nwcLifMhzoFQCLOoRrsJ0eCznIe05/ZgfA4YNYW2wEIxJsvoFyqSQwlcsjaLkf+EUV+x9RTTRnrRP29i2WFu9HdfOfwFHrAgNTBwYSAAAAABJRU5ErkJggg=="
+        rel="icon" type="image/png">
     <style>
-        html
-        {
+        html {
             padding: 0;
             background: #fff;
         }
 
-        html, input
-        {
+        html,
+        input {
             font: 16px Segoe UI, Droid Sans, sans-serif;
             line-height: 1.5;
             color: #555;
         }
 
-        body
-        {
+        body {
             padding: 0 22rem 4rem 22rem;
         }
 
-        html, body
-        {
+        html,
+        body {
             min-height: 100%;
             margin: 0;
             box-sizing: border-box;
         }
 
-        .t
-        {
+        .t {
             margin: 0 -1rem;
         }
 
-        table
-        {
+        table {
             border-collapse: collapse;
         }
 
-        .r2 > tbody > tr > *:nth-child(2), .r3 > tbody > tr > *:nth-child(3), .r4 > tbody > tr > *:nth-child(4)
-        {
+        .r2>tbody>tr>*:nth-child(2),
+        .r3>tbody>tr>*:nth-child(3),
+        .r4>tbody>tr>*:nth-child(4) {
             text-align: right;
         }
 
-        td, th
-        {
+        td,
+        th {
             padding: .3rem 1rem;
         }
 
-        td
-        {
+        td {
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
         }
 
-        th
-        {
+        th {
+            position: relative;
             font-weight: normal;
             text-align: inherit;
             color: #bbb;
             border-left: 1px solid #eee;
+            cursor: pointer;
         }
 
-        th:first-child
+        th:hover
         {
+            background: #f6fcff;
+        }
+
+        th:first-child {
             border-left: none;
         }
 
-        tr:hover
+        .ord::before
         {
+            content: '▼';
+            position: absolute;
+            left: .5rem;
+        }
+        
+        .ord.d::before
+        {
+            content: '▲';
+        }
+
+        .ord.ro::before
+        {
+            left: auto;
+            right: .5rem;
+        }
+        
+
+        tr:first-child:hover {
+            background: none;
+        }
+
+        tr:hover {
             background: #ffd;
         }
 
-        h2
-        {
+        h2 {
             margin: 1.5rem 0;
             font-size: 1.5rem;
             font-weight: normal;
         }
 
-        a
-        {
+        a {
             color: #4be;
             text-decoration: none;
             border-bottom: 1PX solid rgba(68, 187, 238, .5);
         }
 
-        .nav
-        {
+        .nav {
             z-index: 10;
             position: fixed;
             box-sizing: border-box;
             top: 0;
             bottom: 0;
             width: 17rem;
-            padding: 0 2rem 2rem 2rem
+            padding: 0 1.5rem 2rem 1.5rem;
         }
 
-        .half
-        {
+        .half {
             display: inline-block;
             width: 47%;
             vertical-align: top;
             box-sizing: border-box;
         }
 
-        .mr
-        {
+        .mr {
             margin: 0 6% 0 0;
         }
 
-        .w100
-        {
+        .w100 {
             width: 100%;
         }
 
-        .l
-        {
+        .l {
             float: left;
         }
 
-        .fl
-        {
+        .fl {
             left: 0;
         }
 
-        .fr
-        {
+        .fr {
             right: 0;
         }
 
-        .h
-        {
+        .h {
             display: none;
         }
 
-        .wait
-        {
+        .wait {
             color: #fff;
             background: rgba(0, 0, 0, .5);
         }
 
-        .wait, .big
-        {
+        .wait,
+        .big {
             position: fixed;
             display: flex;
             align-items: center;
@@ -155,8 +169,7 @@
             left: 0;
         }
 
-        .wait:before
-        {
+        .wait:before {
             content: '';
             display: block;
             position: absolute;
@@ -170,20 +183,21 @@
             animation: spin 2s linear infinite;
         }
 
-        @keyframes spin
-        {
-            from { transform:rotate(0deg); }
-            to { transform:rotate(360deg); }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        .big
-        {
+        .big {
             z-index: 20;
             text-align: center;
         }
 
-        input
-        {
+        input {
             width: 100%;
             padding: .45rem 1rem .55rem;
             border: none;
@@ -191,49 +205,46 @@
             margin: 0 0 .3rem 0
         }
 
-        input[type=submit], input[type=button]
-        {
+        input[type=submit],
+        input[type=button] {
             background: #590;
             color: #de8;
             cursor: pointer;
         }
 
-        input[type=submit]:hover, input[type=button]:hover
-        {
+        input[type=submit]:hover,
+        input[type=button]:hover {
             background: #6a1;
         }
 
-        .big > div
-        {
+        .big>div {
             margin: -8rem 0 0 0;
         }
 
-        .big input
-        {
+        .big input {
             font-size: 1.5rem;
             padding: .7rem 1.5rem .9rem;
             margin: 0 0 .5rem 0;
         }
 
-        .nav, .big
-        {
+        .nav,
+        .big {
             background: #345;
             background: linear-gradient(#345, #123);
             color: #fff;
         }
 
-        .fx
-        {
+        .fx {
             display: flex;
             flex-direction: column;
         }
 
-        .fx > i
-        {
+        .fx>i {
             flex: 1 1 auto;
         }
     </style>
 </head>
+
 <body>
     <div class="nav fl">
     </div>
@@ -253,22 +264,29 @@
         <form id="fChange" onsubmit="FindUser(event, document.getElementById('iProfile').value)">
             <input id="iProfile" placeholder="ProfileName or ID">
             <input type="submit" value="Change profile">
-            <br><br>
+            <br>
+            <br>
             <input type="button" value="Update statistics" onclick="UpdateStat()">
         </form>
     </div>
     <form id="fAuth" class="h" onsubmit="FindUser(event, document.getElementById('iName').value)">
         <div>
-            Enter Steam profile URL name (steamcommunity.com/id/<b>ProfileName</b>):<br><br>
+            Enter Steam profile URL name (steamcommunity.com/id/
+            <b>ProfileName</b>):
+            <br>
+            <br>
             <input id="iName" placeholder="ProfileName" autofocus>
-            <input type="submit" value="Find"><br><br>
-            Works with public profiles only.
+            <input type="submit" value="Find">
+            <br>
+            <br> Works with public profiles only.
         </div>
     </form>
     <div id="dWait" class="h"></div>
     <script>
         var achievements = {},
             achievementsSort = [],
+            ordCol = 1,
+            ordDir = -1,
             gameCounter = 0,
             key = 'D71484022CFDA8FA5212AC77CA516DE2',
             deadPool = [];
@@ -277,7 +295,7 @@
 
         function Init()
         {
-            if(!!localStorage['userId'])
+            if (!!localStorage['userId'])
             {
                 GetInfo();
                 GetGames();
@@ -295,7 +313,7 @@
 
             var func = function (v)
             {
-                if(v != {} && v.response.success == 1)
+                if (v != {} && v.response.success == 1)
                 {
                     delete localStorage['achievements'];
                     achievementsSort = [];
@@ -317,22 +335,22 @@
 
             profileName = profileName.trim();
 
-            if(profileName.length == 17 && profileName.match(/^\d+$/))
+            if (profileName.length == 17 && profileName.match(/^\d+$/))
             {
                 func(
+                    {
+                        response:
                         {
-                            response:
-                            {
-                                success: 1,
-                                steamid: profileName
-                            }
-                        });
+                            success: 1,
+                            steamid: profileName
+                        }
+                    });
             }
             else
             {
                 AJAX(
-                        '/ISteamUser/ResolveVanityURL/v1/?key=' + key + '&vanityurl=' + encodeURIComponent(profileName),
-                        func);
+                    '/ISteamUser/ResolveVanityURL/v1/?key=' + key + '&vanityurl=' + encodeURIComponent(profileName),
+                    func);
             }
         }
 
@@ -345,127 +363,129 @@
         function GetInfo()
         {
             AJAX(
-                    '/ISteamUser/GetPlayerSummaries/v2/?key=' + key + '&steamids=' + localStorage['userId'],
-                    function (v)
+                '/ISteamUser/GetPlayerSummaries/v2/?key=' + key + '&steamids=' + localStorage['userId'],
+                function (v)
+                {
+                    var user = v.response.players[0],
+                        time = user.timecreated * 1000,
+                        region = '',
+                        game = '';
+
+                    if (!!user.loccountrycode)
                     {
-                        var user = v.response.players[0],
-                            time = user.timecreated * 1000,
-                            region = '',
-                            game = '';
+                        region = '<br>User region: ' + user.loccountrycode;
+                    }
 
-                        if(!!user.loccountrycode)
-                        {
-                            region = '<br>User region: ' + user.loccountrycode;
-                        }
+                    if (!!user.gameextrainfo)
+                    {
+                        game = '<br>Now playing:<br>' + user.gameextrainfo;
+                    }
 
-                        if(!!user.gameextrainfo)
-                        {
-                            game = '<br>Now playing:<br>' + user.gameextrainfo;
-                        }
-
-                        document.getElementById('dUser').innerHTML =
-                                '<h2><img src="' + user.avatar + '" class="l">&nbsp;' + user.personaname + '</h2>' +
-                                '<a href="' + user.profileurl + '" target="_blank">To Steam profile</a><br><br>' +
-                                'Since ' + (new Date(time)).toLocaleDateString() + ' (' + ((Date.now() - time) / 31557600000).toFixed(1) + ' years)' +
-                                region + game;
-                    });
+                    document.getElementById('dUser').innerHTML =
+                        '<h2><img src="' + user.avatar + '" class="l">&nbsp;' + user.personaname + '</h2>' +
+                        '<a href="' + user.profileurl + '" target="_blank">To Steam profile</a><br><br>' +
+                        'Since ' + (new Date(time)).toLocaleDateString() + ' (' + ((Date.now() - time) / 31557600000).toFixed(1) + ' years)' +
+                        region + game;
+                });
         }
 
         function GetGames()
         {
             AJAX(
-                    '/IPlayerService/GetOwnedGames/v1/?key=' + key + '&steamid=' + localStorage['userId'],
-                    function (v)
+                '/IPlayerService/GetOwnedGames/v1/?key=' + key + '&steamid=' + localStorage['userId'],
+                function (v)
+                {
+                    if (!!localStorage['achievements'])
                     {
-                        if(!!localStorage['achievements'])
-                        {
-                            achievements = JSON.parse(localStorage['achievements']);
+                        achievements = JSON.parse(localStorage['achievements']);
 
-                            for(var i in achievements)
+                        for (var i in achievements)
+                        {
+                            if (achievements[i] != 0)
                             {
-                                if(achievements[i] != 0)
+                                achievementsSort.push(achievements[i]);
+                            }
+                        }
+
+                        DrawAchievements();
+                    }
+                    else
+                    {
+                        achievements = {};
+                    }
+
+                    if (!!v.response.games)
+                    {
+                        gameCounter = parseInt(v.response.game_count);
+
+                        ShowWait('0%');
+                        v.response.games.forEach(function (g)
+                        {
+                            if (typeof (achievements[g.appid]) != 'undefined')
+                            {
+                                if (CountDown())
                                 {
-                                    achievementsSort.push(achievements[i]);
+                                    ShowWait('', true);
                                 }
                             }
-
-                            DrawAchievements();
-                        }
-                        else
-                        {
-                            achievements = {};
-                        }
-
-                        if(!!v.response.games)
-                        {
-                            gameCounter = parseInt(v.response.game_count);
-
-                            ShowWait('0%');
-                            v.response.games.forEach(function (g)
+                            else
                             {
-                                if (typeof(achievements[g.appid]) != 'undefined')
-                                {
-                                    if (CountDown())
+                                AJAX(
+                                    '/ISteamUserStats/GetPlayerAchievements/v1?key=' + key + '&steamid=' + localStorage['userId'] + '&appid=' + g.appid,
+                                    function (val)
                                     {
-                                        ShowWait('', true);
-                                    }
-                                }
-                                else
-                                {
-                                    AJAX(
-                                            '/ISteamUserStats/GetPlayerAchievements/v1?key=' + key + '&steamid=' + localStorage['userId'] + '&appid=' + g.appid,
-                                            function (val)
+                                        if (!!val.playerstats.achievements)
+                                        {
+                                            var count = 0;
+                                            val.playerstats.achievements.forEach(function (a)
                                             {
-                                                if (!!val.playerstats.achievements)
+                                                if (a.achieved == 1)
                                                 {
-                                                    var count = 0;
-                                                    val.playerstats.achievements.forEach(function (a)
-                                                    {
-                                                        if (a.achieved == 1)
-                                                        {
-                                                            count++;
-                                                        }
-                                                    });
-
-                                                    achievements[g.appid] =
-                                                            [
-                                                                val.playerstats.gameName.replace(/^The /, ''),
-                                                                Math.floor(count / val.playerstats.achievements.length * 100),
-                                                                count,
-                                                                val.playerstats.achievements.length,
-                                                                parseFloat(g.playtime_forever / 60.0).toFixed(2)
-                                                            ];
-                                                    achievementsSort.push(achievements[g.appid]);
-
-                                                    DrawAchievements();
-                                                }
-                                            },
-                                            function ()
-                                            {
-                                                if (typeof(achievements[g.appid]) == 'undefined')
-                                                {
-                                                    achievements[g.appid] = 0;
-                                                }
-
-                                                ShowWait(Math.floor(100 - (gameCounter / v.response.games.length * 100)) + '%');
-
-                                                if (CountDown())
-                                                {
-                                                    ShowWait('', true);
+                                                    count++;
                                                 }
                                             });
-                                }
-                            });
-                        }
-                    });
+
+                                            achievements[g.appid] =
+                                                [
+                                                    val.playerstats.gameName.replace(/^The /, ''),
+                                                    Math.floor(count / val.playerstats.achievements.length * 100),
+                                                    count,
+                                                    val.playerstats.achievements.length,
+                                                    parseFloat(g.playtime_forever / 60.0).toFixed(2)
+                                                ];
+                                            achievementsSort.push(achievements[g.appid]);
+
+                                            DrawAchievements();
+                                        }
+                                    },
+                                    function ()
+                                    {
+                                        if (typeof (achievements[g.appid]) == 'undefined')
+                                        {
+                                            achievements[g.appid] = 0;
+                                        }
+
+                                        ShowWait(Math.floor(100 - (gameCounter / v.response.games.length * 100)) + '%');
+
+                                        if (CountDown())
+                                        {
+                                            ShowWait('', true);
+                                        }
+                                    });
+                            }
+                        });
+                    }
+                });
         }
+
+        ////////////////////////////////
 
         function CountDown()
         {
             gameCounter--;
             var result = false;
 
-            if(gameCounter == 0)
+            if (gameCounter == 0)
             {
                 localStorage['achievements'] = JSON.stringify(achievements);
                 DrawAchievements();
@@ -478,12 +498,13 @@
 
         function DrawAchievements()
         {
-            var t =
+            var cl = ' class="ord' + (ordDir == 1 ? ' d' : '') + (ordCol == 0 ? ' ro' : '') +'"',
+                t =
                     '<tr>' +
-                    '<th>Game name</th>' +
-                    '<th>%</th>' +
-                    '<th>Achieved</th>' +
-                    '<th>Time</th>' +
+                        '<th' + (ordCol == 0 ? cl : '') + ' onclick="Ord(0)">Game</th>' +
+                        '<th' + (ordCol == 1 ? cl : '') + ' onclick="Ord(1)">%</th>' +
+                        '<th' + (ordCol == 3 ? cl : '') + ' onclick="Ord(3)" style="min-width: 4.5rem">Achieved</th>' +
+                        '<th' + (ordCol == 4 ? cl : '') + ' onclick="Ord(4)">Time</th>' +
                     '</tr>',
                 countPerc = 0,
                 countPlayed = 0,
@@ -494,28 +515,28 @@
                 countIdeal = 0,
                 countGood = 0;
 
-            achievementsSort.sort(SortAch);
+            achievementsSort.order(ordCol, ordDir);
             achievementsSort.forEach(function (row)
             {
                 t +=
-                        '<tr>' +
-                        '<td>' + row[0] + '</td>' +
-                        '<td>' + row[1] + '%</td>' +
-                        '<td>' + row[2] + '/' + row[3] + '</td>' +
-                        '<td>' + row[4] + '&nbsp;h</td>' +
-                        '</tr>';
+                    '<tr>' +
+                    '<td>' + row[0] + '</td>' +
+                    '<td>' + row[1] + '%</td>' +
+                    '<td>' + row[2] + '/' + row[3] + '</td>' +
+                    '<td>' + row[4] + '&nbsp;h</td>' +
+                    '</tr>';
 
-                if(row[1] == 100)
+                if (row[1] == 100)
                 {
                     countIdeal++;
                 }
 
-                if(row[1] > 50)
+                if (row[1] > 50)
                 {
                     countGood++;
                 }
 
-                if(row[4] > 0)
+                if (row[4] > 0)
                 {
                     countAchGames++;
                     countAch += row[2];
@@ -527,17 +548,17 @@
             });
 
             document.getElementById('dAStat').innerHTML =
-                    countAch + '&nbsp;achievements out&nbsp;of&nbsp;' + countAchAll + ' in&nbsp;' + countAchGames + '&nbsp;games.<br>' +
-                    'Average percentage of&nbsp;achievements for&nbsp;a&nbsp;game&nbsp;— ' + Math.floor(countPerc / countPlayed) + '%.<br>' +
-                    'Total playing time in&nbsp;games with&nbsp;achievements&nbsp;— ' + Math.round(countTime) + '&nbsp;hours.<br>' +
-                    'Average speed of&nbsp;receiving achievements&nbsp;— ' + (countAch / countTime).toFixed(1) + '&nbsp;achievements per&nbsp;hour.<br><br>' +
+                countAch + '&nbsp;achievements out&nbsp;of&nbsp;' + countAchAll + ' in&nbsp;' + countAchGames + '&nbsp;games.<br>' +
+                'Average percentage of&nbsp;achievements for&nbsp;a&nbsp;game&nbsp;— ' + Math.floor(countPerc / countPlayed) + '%.<br>' +
+                'Total playing time in&nbsp;games with&nbsp;achievements&nbsp;— ' + Math.round(countTime) + '&nbsp;hours.<br>' +
+                'Average speed of&nbsp;receiving achievements&nbsp;— ' + (countAch / countTime).toFixed(1) + '&nbsp;achievements per&nbsp;hour.<br><br>' +
 
-                    'Average number of&nbsp;received achievements in&nbsp;played games&nbsp;— ' + (countAch / countPlayed).toFixed(1) + '.<br>' +
-                    'Average number of&nbsp;achievements in&nbsp;played games&nbsp;— ' + (countAchAll / countPlayed).toFixed(1) + '.<br><br>' +
+                'Average number of&nbsp;received achievements in&nbsp;played games&nbsp;— ' + (countAch / countPlayed).toFixed(1) + '.<br>' +
+                'Average number of&nbsp;achievements in&nbsp;played games&nbsp;— ' + (countAchAll / countPlayed).toFixed(1) + '.<br><br>' +
 
-                    'Ideal games (100% achieved)&nbsp;— ' + countIdeal + '.<br>' +
-                    'Good games (more than 50% achieved)&nbsp;— ' + countGood + '.<br>' +
-                    'Number of&nbsp;not&nbsp;played games&nbsp;— ' + (achievementsSort.length - countPlayed) + '.';
+                'Ideal games (100% achieved)&nbsp;— ' + countIdeal + '.<br>' +
+                'Good games (more than 50% achieved)&nbsp;— ' + countGood + '.<br>' +
+                'Number of&nbsp;not&nbsp;played games&nbsp;— ' + (achievementsSort.length - countPlayed) + '.';
 
             document.getElementById('tGames').innerHTML = t;
         }
@@ -547,7 +568,7 @@
             var div = document.getElementById('dWait');
             div.innerHTML = text;
 
-            if(!!isHide)
+            if (!!isHide)
             {
                 div.className = 'h';
             }
@@ -557,24 +578,45 @@
             }
         }
 
-        function SortAch(a, b)
+        function Ord(col)
         {
-            var r = 0;
-
-            if (a[1] < b[1])
+            if(ordCol == col)
             {
-                r = 1;
-            }
-            else if (a[1] > b[1])
-            {
-                r = -1;
+                ordDir *= -1;
             }
             else
             {
-                r = a[0].toLowerCase() > b[0].toLowerCase() ? 1 : -1;
+                ordDir = -1;
+                ordCol = col;
             }
 
-            return r;
+            DrawAchievements();
+        }
+
+        Array.prototype.order = function (col, ord)
+        {
+            function compare(a, b) 
+            {
+                var r = 0;
+
+                if(col > 0)
+                {
+                    r = a[col] - b[col];
+
+                    if (r == 0)
+                    {
+                        r = a[0].toLowerCase() < b[0].toLowerCase() ? 1 : -1;
+                    }
+                }
+                else
+                {
+                    r = a[0].toLowerCase() > b[0].toLowerCase() ? 1 : -1;
+                }
+
+                return r * ord;
+            }
+
+            this.sort(compare);
         }
 
         function AJAX(address, callbackSuccess, callback)
@@ -603,7 +645,7 @@
                             callbackSuccess(JSON.parse(req.responseText));
                         }
 
-                        if(!!callback)
+                        if (!!callback)
                         {
                             callback();
                         }
@@ -622,7 +664,7 @@
 
         function KillAJAX()
         {
-            deadPool.forEach(function(req)
+            deadPool.forEach(function (req)
             {
                 req.abort();
             });
@@ -631,4 +673,5 @@
         }
     </script>
 </body>
+
 </html>
