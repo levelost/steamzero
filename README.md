@@ -2,11 +2,15 @@
 Steam achivements statistics script.
 
 ## Usage
-Copy file [steamzero.html](https://github.com/levelost/steamzero/releases/download/v0.08/steamzero.html) to your computer and open it in the browser (Chrome, Filefox, Opera, Yandex). Script works with public accounts only.
+Copy file [steamzero.html](https://github.com/levelost/steamzero/releases/download/v0.09/steamzero.html) to your computer and open it in the browser (Chrome, Filefox, Opera, Yandex). Script works with public accounts only.
 
 If you want to see the human-readable code, open the file [/debug/index.html](https://github.com/levelost/steamzero/blob/master/debug/index.html).
 
 ## History
+### v0.09
+* Added information about recent games.
+* Redesigned statistics.
+* Display of digits and dates now corresponds to locale.
 ### v0.08
 * Round persision fix.
 * Achievements table sorting.
