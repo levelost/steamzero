@@ -30,7 +30,8 @@
             box-sizing: border-box;
         }
 
-        .t {
+        .tm
+        {
             margin: 0 -1rem;
         }
 
@@ -40,21 +41,23 @@
 
         .r2>tbody>tr>*:nth-child(2),
         .r3>tbody>tr>*:nth-child(3),
-        .r4>tbody>tr>*:nth-child(4) {
+        .r4>tbody>tr>*:nth-child(4)
+        {
             text-align: right;
         }
-
-        td,
-        th {
+        
+        .t td, .t th
+        {
             padding: .3rem 1rem;
         }
 
-        td {
+        .t td
+        {
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
         }
 
-        th {
+        .t th {
             position: relative;
             font-weight: normal;
             text-align: inherit;
@@ -63,46 +66,77 @@
             cursor: pointer;
         }
 
-        th:hover
-        {
+        .t th:hover {
             background: #f6fcff;
         }
 
-        th:first-child {
+        .t th:first-child {
             border-left: none;
         }
 
-        .ord::before
-        {
+        .ord::before {
             content: '▼';
             position: absolute;
             left: .5rem;
         }
-        
-        .ord.d::before
-        {
+
+        .ord.d::before {
             content: '▲';
         }
 
-        .ord.ro::before
-        {
+        .ord.ro::before {
             left: auto;
             right: .5rem;
         }
-        
 
-        tr:first-child:hover {
+
+        .t tr:first-child:hover {
             background: none;
         }
 
-        tr:hover {
+        .t tr:hover {
             background: #ffd;
+        }
+
+        .gr td
+        {
+            width: 33.3%;
+            padding: 0 0 2rem 1rem;
+            vertical-align: top;
+        }
+
+        .gr td:first-child
+        {
+            padding-left: 0;
+        }
+
+        .gr td > i
+        {
+            display: block;
+            font-size: 2rem;
+            color: #bbb;
+        }
+
+        .gl > div
+        {
+            clear: both;
+        }
+
+        .gl > div > img
+        {
+            float: left;
+            margin: 0 .5rem 1.5rem 0
         }
 
         h2 {
             margin: 1.5rem 0;
             font-size: 1.5rem;
             font-weight: normal;
+        }
+
+        i
+        {
+            font-style: normal;
         }
 
         a {
@@ -121,7 +155,8 @@
             padding: 0 1.5rem 2rem 1.5rem;
         }
 
-        .half {
+        .half
+        {
             display: inline-block;
             width: 47%;
             vertical-align: top;
@@ -132,7 +167,8 @@
             margin: 0 6% 0 0;
         }
 
-        .w100 {
+        .w100
+        {
             width: 100%;
         }
 
@@ -227,10 +263,9 @@
             margin: 0 0 .5rem 0;
         }
 
-        .nav,
-        .big {
+        .nav, .big {
             background: #345;
-            background: linear-gradient(#345, #123);
+            background: linear-gradient(#525a66, #1e2936);
             color: #fff;
         }
 
@@ -250,11 +285,14 @@
     </div>
     <div class="half mr">
         <h2>Achievements stats</h2>
-        <div id="dAStat"></div>
+        <table id="tAStat" class="gr w100">
+        </table>
+        <h2>Recently games</h2>
+        <div id="dRecently" class="gl"></div>
     </div><div class="half">
         <h2>Achievements in&nbsp;games&nbsp;(%)</h2>
-        <div class="t">
-            <table id="tGames" class="w100 r2 r3 r4">
+        <div class="tm">
+            <table id="tGames" class="t w100 r2 r3 r4">
             </table>
         </div>
     </div>
@@ -271,14 +309,13 @@
     </div>
     <form id="fAuth" class="h" onsubmit="FindUser(event, document.getElementById('iName').value)">
         <div>
-            Enter Steam profile URL name (steamcommunity.com/id/
-            <b>ProfileName</b>):
+            Enter Steam profile URL name (steamcommunity.com/id/<b>ProfileName</b>):
             <br>
             <br>
             <input id="iName" placeholder="ProfileName" autofocus>
             <input type="submit" value="Find">
             <br>
-            <br> Works with public profiles only.
+            <br>Works with <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401" target="_blank">public profiles</a> only.
         </div>
     </form>
     <div id="dWait" class="h"></div>
@@ -297,13 +334,19 @@
         {
             if (!!localStorage['userId'])
             {
-                GetInfo();
-                GetGames();
+                Set();
             }
             else
             {
                 document.getElementById('fAuth').className = 'big';
             }
+        }
+
+        function Set()
+        {
+            GetInfo();
+            GetRecently();
+            GetGames();
         }
 
         function FindUser(event, profileName)
@@ -318,12 +361,11 @@
                     delete localStorage['achievements'];
                     achievementsSort = [];
                     document.getElementById('tGames').innerHTML = '';
-                    document.getElementById('dAStat').innerHTML = '';
+                    document.getElementById('tAStat').innerHTML = '';
 
                     localStorage['userId'] = v.response.steamid;
 
-                    GetInfo();
-                    GetGames();
+                    Set();
 
                     document.getElementById('fAuth').className = 'h';
                 }
@@ -384,8 +426,38 @@
                     document.getElementById('dUser').innerHTML =
                         '<h2><img src="' + user.avatar + '" class="l">&nbsp;' + user.personaname + '</h2>' +
                         '<a href="' + user.profileurl + '" target="_blank">To Steam profile</a><br><br>' +
-                        'Since ' + (new Date(time)).toLocaleDateString() + ' (' + ((Date.now() - time) / 31557600000).toFixed(1) + ' years)' +
+                        'Since ' + (new Date(time)).toLocaleDateString() + ' (' +  Number(((Date.now() - time) / 31557600000).toFixed(1)).toLocaleString() + ' years)' +
                         region + game;
+                });
+        }
+
+        function GetRecently()
+        {
+            AJAX(
+                '/IPlayerService/GetRecentlyPlayedGames/v1/?key=' + key + '&steamid=' + localStorage['userId'],
+                function (v)
+                {
+                    var games = v.response.games,
+                        time = 0,
+                        s = '';
+                    games.forEach(function(g)
+                    {
+                        time += g.playtime_2weeks;
+
+                        s +=
+                            '<div>' +
+                                '<img src="http://media.steampowered.com/steamcommunity/public/images/apps/' + g.appid + '/' + g.img_logo_url + '.jpg"> ' + 
+                                g.name + '<br>' +
+                                Number((g.playtime_2weeks / 60.0).toFixed(2)).toLocaleString() + '/' + 
+                                Number((g.playtime_forever / 60.0).toFixed(2)).toLocaleString() + 
+                                ' (hours last 2 weeks/forever)' +
+                            '</div>';
+                    });
+
+                    s = 'Played ' + games.length + '&nbsp;games and&nbsp;' + Number((time / 60.0).toFixed(2)).toLocaleString() + 
+                        '&nbsp;hours for&nbsp;last 2&nbsp;weeks:<br><br>' + s;
+
+                    document.getElementById('dRecently').innerHTML = s;
                 });
         }
 
@@ -498,13 +570,13 @@
 
         function DrawAchievements()
         {
-            var cl = ' class="ord' + (ordDir == 1 ? ' d' : '') + (ordCol == 0 ? ' ro' : '') +'"',
+            var cl = ' class="ord' + (ordDir == 1 ? ' d' : '') + (ordCol == 0 ? ' ro' : '') + '"',
                 t =
                     '<tr>' +
-                        '<th' + (ordCol == 0 ? cl : '') + ' onclick="Ord(0)">Game</th>' +
-                        '<th' + (ordCol == 1 ? cl : '') + ' onclick="Ord(1)">%</th>' +
-                        '<th' + (ordCol == 3 ? cl : '') + ' onclick="Ord(3)" style="min-width: 4.5rem">Achieved</th>' +
-                        '<th' + (ordCol == 4 ? cl : '') + ' onclick="Ord(4)">Time</th>' +
+                    '<th' + (ordCol == 0 ? cl : '') + ' onclick="Ord(0)">Game</th>' +
+                    '<th' + (ordCol == 1 ? cl : '') + ' onclick="Ord(1)">%</th>' +
+                    '<th' + (ordCol == 3 ? cl : '') + ' onclick="Ord(3)" style="min-width: 4.5rem">Achieved</th>' +
+                    '<th' + (ordCol == 4 ? cl : '') + ' onclick="Ord(4)">Time</th>' +
                     '</tr>',
                 countPerc = 0,
                 countPlayed = 0,
@@ -512,8 +584,9 @@
                 countAch = 0,
                 countAchAll = 0,
                 countAchGames = 0,
-                countIdeal = 0,
-                countGood = 0;
+                count100 = 0,
+                count75 = 0,
+                count50 = 0;
 
             achievementsSort.order(ordCol, ordDir);
             achievementsSort.forEach(function (row)
@@ -523,18 +596,12 @@
                     '<td>' + row[0] + '</td>' +
                     '<td>' + row[1] + '%</td>' +
                     '<td>' + row[2] + '/' + row[3] + '</td>' +
-                    '<td>' + row[4] + '&nbsp;h</td>' +
+                    '<td>' + Number(row[4]).toLocaleString() + '&nbsp;h</td>' +
                     '</tr>';
 
-                if (row[1] == 100)
-                {
-                    countIdeal++;
-                }
-
-                if (row[1] > 50)
-                {
-                    countGood++;
-                }
+                if (row[1] == 100) { count100++; }
+                if (row[1] > 75) { count75++; }
+                if (row[1] > 50) { count50++; }
 
                 if (row[4] > 0)
                 {
@@ -547,18 +614,60 @@
                 }
             });
 
-            document.getElementById('dAStat').innerHTML =
-                countAch + '&nbsp;achievements out&nbsp;of&nbsp;' + countAchAll + ' in&nbsp;' + countAchGames + '&nbsp;games.<br>' +
-                'Average percentage of&nbsp;achievements for&nbsp;a&nbsp;game&nbsp;— ' + Math.floor(countPerc / countPlayed) + '%.<br>' +
-                'Total playing time in&nbsp;games with&nbsp;achievements&nbsp;— ' + Math.round(countTime) + '&nbsp;hours.<br>' +
-                'Average speed of&nbsp;receiving achievements&nbsp;— ' + (countAch / countTime).toFixed(1) + '&nbsp;achievements per&nbsp;hour.<br><br>' +
-
-                'Average number of&nbsp;received achievements in&nbsp;played games&nbsp;— ' + (countAch / countPlayed).toFixed(1) + '.<br>' +
-                'Average number of&nbsp;achievements in&nbsp;played games&nbsp;— ' + (countAchAll / countPlayed).toFixed(1) + '.<br><br>' +
-
-                'Ideal games (100% achieved)&nbsp;— ' + countIdeal + '.<br>' +
-                'Good games (more than 50% achieved)&nbsp;— ' + countGood + '.<br>' +
-                'Number of&nbsp;not&nbsp;played games&nbsp;— ' + (achievementsSort.length - countPlayed) + '.';
+            document.getElementById('tAStat').innerHTML =
+                '<tr>' + 
+                    '<td>' +
+                        '<i>' + countAch.toLocaleString() + '</i>' +
+                        'Achievements out&nbsp;of&nbsp;' + countAchAll.toLocaleString() + ' (' + Math.floor(countAch / countAchAll * 100) + '%)' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + countAchGames.toLocaleString() + '</i>' +
+                        'Games with&nbsp;achievements' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + Math.floor(countPerc / countPlayed) + '%</i>' +
+                        'Average percentage of&nbsp;achievements' +
+                    '</td>' +
+                '</tr>' +
+                '<tr>' + 
+                    '<td>' +
+                        '<i>' + Math.round(countTime).toLocaleString() + '</i>' +
+                        'Hours in&nbsp;games with&nbsp;achievements' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + Number((countAch / countTime).toFixed(1)).toLocaleString() + '</i>' +
+                        'Achievements received per&nbsp;hour (average)' +
+                    '</td>' +
+                    '<td></td>' +
+                '</tr>' +
+                '<tr>' + 
+                    '<td>' +
+                        '<i>' + Number((countAch / countPlayed).toFixed(1)).toLocaleString() + '</i>' +
+                        'Achievements received per&nbsp;game (average)' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + Number((countAchAll / countPlayed).toFixed(1)).toLocaleString() + '</i>' +
+                        'Achievements number per&nbsp;game (average)' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + (achievementsSort.length - countPlayed).toLocaleString() + '</i>' +
+                        'Achievements games not&nbsp;played (0 hours)' +
+                    '</td>' +
+                '</tr>' +
+                '<tr>' + 
+                    '<td>' +
+                        '<i>' + count100.toLocaleString() + '</i>' +
+                        'Perfect games<br>(100%&nbsp;achieved)' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + count75.toLocaleString() + '</i>' +
+                        'Very good games<br>(>&nbsp;75% achieved)' +
+                    '</td>' +
+                    '<td>' +
+                        '<i>' + count50.toLocaleString() + '</i>' +
+                        'Good games<br>(>&nbsp;50% achieved)' +
+                    '</td>' +
+                '</tr>';
 
             document.getElementById('tGames').innerHTML = t;
         }
@@ -580,7 +689,7 @@
 
         function Ord(col)
         {
-            if(ordCol == col)
+            if (ordCol == col)
             {
                 ordDir *= -1;
             }
@@ -595,11 +704,11 @@
 
         Array.prototype.order = function (col, ord)
         {
-            function compare(a, b) 
+            function compare(a, b)
             {
                 var r = 0;
 
-                if(col > 0)
+                if (col > 0)
                 {
                     r = a[col] - b[col];
 
