@@ -117,7 +117,7 @@ function GetRecently() {
             o = 0,
             a = "";
         t.forEach(function(e) {
-            o += e.playtime_2weeks, a += '<div><img src="https://media.steampowered.com/steamcommunity/public/images/apps/' + e.appid + "/" + e.img_logo_url + '.jpg"> ' + e.name + "<br>" + Number((e.playtime_2weeks / 60).toFixed(2)).toLocaleString() + "/" + Number((e.playtime_forever / 60).toFixed(2)).toLocaleString() + " (hours last 2 weeks/forever)</div>"
+            o += e.playtime_2weeks, a += '<div><img src="http://media.steampowered.com/steamcommunity/public/images/apps/' + e.appid + "/" + e.img_logo_url + '.jpg"> ' + e.name + "<br>" + Number((e.playtime_2weeks / 60).toFixed(2)).toLocaleString() + "/" + Number((e.playtime_forever / 60).toFixed(2)).toLocaleString() + " (hours last 2 weeks/forever)</div>"
         }), a = "Played " + t.length + "&nbsp;games and&nbsp;" + Number((o / 60).toFixed(2)).toLocaleString() + "&nbsp;hours for&nbsp;last 2&nbsp;weeks:<br><br>" + a, document.getElementById("dRecently").innerHTML = a
     })
 }
@@ -125,7 +125,8 @@ function GetRecently() {
 function GetGames() {
     AJAX("/IPlayerService/GetOwnedGames/v1/?key=" + key + "&steamid=" + localStorage.userId, function(e) {
         if (localStorage.achievements) {
-            for (var t in achievements = JSON.parse(localStorage.achievements)) 0 != achievements[t] && achievementsSort.push(achievements[t]);
+            for (var t in achievements = JSON.parse(localStorage.achievements))
+				0 != achievements[t] && achievementsSort.push(achievements[t]);
             DrawAchievements()
         } else achievements = {};
         e.response.games && (gameCounter = parseInt(e.response.game_count), ShowWait("0%"), e.response.games.forEach(function(o) {
@@ -153,7 +154,11 @@ function CountDown() {
 
 function DrawAchievements() {
     var e = ' class="ord' + (1 == ordDir ? " d" : "") + (0 == ordCol ? " ro" : "") + '"',
-        t = "<tr><th" + (0 == ordCol ? e : "") + ' onclick="Ord(0)">Game</th><th' + (1 == ordCol ? e : "") + ' onclick="Ord(1)">%</th><th' + (3 == ordCol ? e : "") + ' onclick="Ord(3)" style="min-width: 4.5rem">Achieved</th><th' + (4 == ordCol ? e : "") + ' onclick="Ord(4)">Time</th></tr>',
+        t = "<tr><th" + (0 == ordCol ? e : "") +
+			' onclick="Ord(0)">Game</th><th' + (1 == ordCol ? e : "") +
+			' onclick="Ord(1)">%</th><th' + (3 == ordCol ? e : "") +
+			' onclick="Ord(2)" style="min-width: 4.5rem">Achieved</th><th' + (4 == ordCol ? e : "") +
+			' onclick="Ord(4)">Time</th></tr>',
         o = 0,
         a = 0,
         n = 0,
@@ -163,9 +168,39 @@ function DrawAchievements() {
         c = 0,
         d = 0,
         m = 0;
-    achievementsSort.order(ordCol, ordDir), achievementsSort.forEach(function(e) {
-        t += "<tr><td>" + e[0] + "</td><td>" + e[1] + "%</td><td>" + e[2] + "/" + e[3] + "</td><td>" + Number(e[4]).toLocaleString() + "&nbsp;h</td></tr>", 100 == e[1] && c++, 75 < e[1] && d++, 50 < e[1] && m++, 0 < e[4] && (s++, r += e[2], i += e[3], o += e[1], a++, n += parseFloat(e[4]))
-    }), document.getElementById("tAStat").innerHTML = "<tr><td><i>" + r.toLocaleString() + "</i>Achievements out&nbsp;of&nbsp;" + i.toLocaleString() + " (" + Math.floor(r / i * 100) + "%)</td><td><i>" + s.toLocaleString() + "</i>Games with&nbsp;achievements</td><td><i>" + Math.floor(o / a) + "%</i>Average percentage of&nbsp;achievements</td></tr><tr><td><i>" + Math.round(n).toLocaleString() + "</i>Hours in&nbsp;games with&nbsp;achievements</td><td><i>" + Number((r / n).toFixed(1)).toLocaleString() + "</i>Achievements received per&nbsp;hour (average)</td><td></td></tr><tr><td><i>" + Number((r / a).toFixed(1)).toLocaleString() + "</i>Achievements received per&nbsp;game (average)</td><td><i>" + Number((i / a).toFixed(1)).toLocaleString() + "</i>Achievements number per&nbsp;game (average)</td><td><i>" + (achievementsSort.length - a).toLocaleString() + "</i>Achievements games not&nbsp;played (0 hours)</td></tr><tr><td><i>" + c.toLocaleString() + "</i>Perfect games<br>(100%&nbsp;achieved)</td><td><i>" + d.toLocaleString() + "</i>Very good games<br>(>&nbsp;75% achieved)</td><td><i>" + m.toLocaleString() + "</i>Good games<br>(>&nbsp;50% achieved)</td></tr>", document.getElementById("tGames").innerHTML = t
+    achievementsSort.order(ordCol, ordDir),
+	achievementsSort.forEach(function(e) {
+        t += "<tr><td>" + e[0] + "</td><td>" +
+			e[1] + "%</td><td>" +
+			e[2] + "/" +
+			e[3] + "</td><td>" +
+			Number(e[4]).toLocaleString() +
+			"&nbsp;h</td></tr>",
+		100 == e[1] && c++,
+		75 < e[1] && d++,
+		50 < e[1] && m++,
+		0 < e[4] && (s++, r += e[2], i += e[3], o += e[1], a++,
+		n += parseFloat(e[4]))
+    }), document.getElementById("tAStat").innerHTML = "<tr><td><i>" +
+		r.toLocaleString() + "</i>Achievements out&nbsp;of&nbsp;" +
+		i.toLocaleString() + " (" + Math.floor(r / i * 100) + "%)</td><td><i>" +
+		s.toLocaleString() + "</i>Games with&nbsp;achievements</td><td><i>" +
+		Math.floor(o / a) + "%</i>Average percentage of&nbsp;achievements</td></tr><tr><td><i>" +
+		Math.round(n).toLocaleString() + "</i>Hours in&nbsp;games with&nbsp;achievements</td><td><i>" +
+		Number((r / n).toFixed(1)).toLocaleString() +
+		"</i>Achievements received per&nbsp;hour (average)</td><td></td></tr><tr><td><i>" +
+		Number((r / a).toFixed(1)).toLocaleString() +
+		"</i>Achievements received per&nbsp;game (average)</td><td><i>" +
+		Number((i / a).toFixed(1)).toLocaleString() +
+		"</i>Achievements number per&nbsp;game (average)</td><td><i>" +
+		(achievementsSort.length - a).toLocaleString() +
+		"</i>Achievements games not&nbsp;played (0 hours)</td></tr><tr><td><i>" +
+		c.toLocaleString() +
+		"</i>Perfect games<br>(100%&nbsp;achieved)</td><td><i>" +
+		d.toLocaleString() +
+		"</i>Very good games<br>(>&nbsp;75% achieved)</td><td><i>" +
+		m.toLocaleString() + "</i>Good games<br>(>&nbsp;50% achieved)</td></tr>",
+	document.getElementById("tGames").innerHTML = t
 }
 
 function ShowWait(e, t) {
@@ -174,7 +209,8 @@ function ShowWait(e, t) {
 }
 
 function Ord(e) {
-    ordCol == e ? ordDir *= -1 : (ordDir = -1, ordCol = e), DrawAchievements()
+    ordCol == e ? ordDir *= -1 : (ordDir = -1, ordCol = e),
+	DrawAchievements()
 }
 
 function AJAX(e, t, o) {
@@ -208,10 +244,13 @@ function KillAJAX() {
     }), deadPool = []
 }
 
-Init(), Array.prototype.order = function(a, n) {
+Init(),
+Array.prototype.order = function(a, n) {
     this.sort(function(e, t) {
         var o = 0;
-        return 0 < a ? 0 == (o = e[a] - t[a]) && (o = e[0].toLowerCase() < t[0].toLowerCase() ? 1 : -1) : o = e[0].toLowerCase() > t[0].toLowerCase() ? 1 : -1, o * n
+        return 0 < a ?
+			0 == (o = e[a] - t[a]) && (o = e[0].toLowerCase() < t[0].toLowerCase() ? 1 : -1) :
+			o = e[0].toLowerCase() > t[0].toLowerCase() ? 1 : -1, o * n
     })
 }
    </script>
